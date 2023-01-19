@@ -10,6 +10,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -56,7 +58,11 @@ fun DrinksListScreen(
             items(products) { p ->
                 DrinkProductCard(
                     product = p,
-                    Modifier.clickable {
+                    Modifier
+                        .semantics {
+                            contentDescription = "drinks product card"
+                        }
+                        .clickable {
                         onProductClick(p)
                     }
                 )
