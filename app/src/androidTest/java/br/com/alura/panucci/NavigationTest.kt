@@ -7,6 +7,7 @@ import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import br.com.alura.panucci.navigation.PanucciNavHost
+import br.com.alura.panucci.navigation.drinksRoute
 import br.com.alura.panucci.navigation.highlightsListRoute
 import br.com.alura.panucci.navigation.menuRoute
 import org.junit.Assert.assertEquals
@@ -25,7 +26,7 @@ class NavigationTest {
         composeTestRule.setContent {
             navController = TestNavHostController(LocalContext.current)
             navController.navigatorProvider.addNavigator(ComposeNavigator())
-            PanucciNavHost(navController = navController)
+            PanucciApp(navController = navController)
         }
     }
 
@@ -42,6 +43,24 @@ class NavigationTest {
 
         val currentRoute = navController.currentBackStackEntry?.destination?.route
         assertEquals(currentRoute, menuRoute)
+    }
+
+    @Test
+    fun shouldDisplayHighlightListScreen(){
+        composeTestRule.onNodeWithText("Destaques")
+            .performClick()
+
+        val currentRoute = navController.currentBackStackEntry?.destination?.route
+        assertEquals(currentRoute, highlightsListRoute)
+    }
+
+    @Test
+    fun shouldDisplayDrinksScreen(){
+        composeTestRule.onNodeWithText("Bebidas")
+            .performClick()
+
+        val currentRoute = navController.currentBackStackEntry?.destination?.route
+        assertEquals(currentRoute, drinksRoute)
     }
 
 }
