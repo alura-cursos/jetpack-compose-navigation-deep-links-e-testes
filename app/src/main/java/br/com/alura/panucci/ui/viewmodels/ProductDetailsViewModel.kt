@@ -49,8 +49,6 @@ class ProductDetailsViewModel(
             }
         }
         viewModelScope.launch {
-            val timemillis = Random.nextLong(3000, 4000)
-            delay(timemillis)
             savedStateHandle.getStateFlow<String?>(
                 "promoCode",
                 null

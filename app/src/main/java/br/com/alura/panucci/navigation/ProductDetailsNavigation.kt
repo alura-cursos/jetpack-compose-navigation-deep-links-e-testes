@@ -13,6 +13,7 @@ import br.com.alura.panucci.ui.viewmodels.ProductDetailsViewModel
 
 internal const val productDetailsRoute = "productDetails"
 internal const val productIdArgument = "productId"
+internal const val promoCodeArgument = "promoCode"
 
 fun NavGraphBuilder.productDetailsScreen(
     onNavigateToCheckout: () -> Unit,
@@ -21,7 +22,7 @@ fun NavGraphBuilder.productDetailsScreen(
     composable(
         "$productDetailsRoute/{$productIdArgument}",
         deepLinks = listOf(navDeepLink {
-            uriPattern = "$uri/$productDetailsRoute/{productId}?promoCode={promoCode}"
+            uriPattern = "$uri/$productDetailsRoute/{$productIdArgument}?$promoCodeArgument={$promoCodeArgument}"
         })
     ) { backStackEntry ->
         backStackEntry.arguments?.getString(productIdArgument)?.let { id ->

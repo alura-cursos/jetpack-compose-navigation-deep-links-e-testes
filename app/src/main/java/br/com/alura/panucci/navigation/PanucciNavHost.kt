@@ -3,7 +3,6 @@ package br.com.alura.panucci.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.navOptions
 
 internal const val uri = "alura://panucci.com.br"
 

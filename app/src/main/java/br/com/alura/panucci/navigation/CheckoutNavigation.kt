@@ -9,7 +9,7 @@ import androidx.navigation.compose.composable
 import br.com.alura.panucci.ui.screens.CheckoutScreen
 import br.com.alura.panucci.ui.viewmodels.CheckoutViewModel
 
-private const val checkoutRoute = "checkout"
+internal const val checkoutRoute = "checkout"
 
 fun NavGraphBuilder.checkoutScreen(
     onPopBackStack: () -> Unit
