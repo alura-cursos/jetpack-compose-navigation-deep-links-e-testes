@@ -2,7 +2,11 @@ package br.com.alura.panucci.ui.viewmodels
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import br.com.alura.panucci.dao.ProductDao
 import br.com.alura.panucci.navigation.productIdArgument
 import br.com.alura.panucci.ui.uistate.ProductDetailsUiState
@@ -15,7 +19,7 @@ import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 class ProductDetailsViewModel(
-    private val dao: ProductDao = ProductDao(),
+    private val dao: ProductDao,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -44,6 +48,17 @@ class ProductDetailsViewModel(
                 ProductDetailsUiState.Success(product = product)
             } ?: ProductDetailsUiState.Failure
             _uiState.update { dataState }
+        }
+    }
+
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                ProductDetailsViewModel(
+                    dao = ProductDao(),
+                    savedStateHandle = createSavedStateHandle()
+                )
+            }
         }
     }
 
