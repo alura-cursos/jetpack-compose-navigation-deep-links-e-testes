@@ -53,6 +53,7 @@ dependencies {
     def nav_version = "2.5.3"
 
     implementation "androidx.navigation:navigation-compose:$nav_version"
+    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
 
     implementation 'io.coil-kt:coil-compose:2.2.2'
     implementation 'androidx.core:core-ktx:1.9.0'
