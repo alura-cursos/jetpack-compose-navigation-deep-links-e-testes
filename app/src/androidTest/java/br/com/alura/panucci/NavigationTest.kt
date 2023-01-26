@@ -5,15 +5,14 @@ import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
-import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.printToLog
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
-import br.com.alura.panucci.navigation.PanucciNavHost
 import br.com.alura.panucci.navigation.drinksRoute
+import br.com.alura.panucci.navigation.highlightsListRoute
 import br.com.alura.panucci.navigation.menuRoute
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -44,7 +43,7 @@ class NavigationTest {
     }
 
     @Test
-    fun appNavHost_verifyIfMenuScreenIsDisplayed(){
+    fun appNavHost_verifyIfMenuScreenIsDisplayed() {
         composeTestRule.onRoot().printToLog("panucci app")
         composeTestRule.onNodeWithText("Menu")
             .performClick()
@@ -54,6 +53,33 @@ class NavigationTest {
 
         val route = navController.currentBackStackEntry?.destination?.route
         assertEquals(route, menuRoute)
+    }
+
+    @Test
+    fun appNavHost_verifyIfDrinksScreenIsDisplayed() {
+        composeTestRule.onRoot().printToLog("panucci app")
+        composeTestRule.onNodeWithText("Bebidas")
+            .performClick()
+
+        composeTestRule.onAllNodesWithText("Bebidas")
+            .assertCountEquals(2)
+
+        val route = navController.currentBackStackEntry?.destination?.route
+        assertEquals(route, drinksRoute)
+    }
+
+    @Test
+    fun appNavHost_verifyIfHighlightsScreenIsDisplayed() {
+        composeTestRule.onRoot().printToLog("panucci app")
+        composeTestRule.onNodeWithText("Destaques")
+            .performClick()
+
+        composeTestRule
+            .onNodeWithText("Destaques do dia")
+            .assertIsDisplayed()
+
+        val route = navController.currentBackStackEntry?.destination?.route
+        assertEquals(route, highlightsListRoute)
     }
 
 }
