@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import br.com.alura.panucci.navigation.*
@@ -29,76 +30,80 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val navController = rememberNavController()
-            LaunchedEffect(Unit) {
-                navController.addOnDestinationChangedListener { _, _, _ ->
-                    val routes = navController.backQueue.map {
-                        it.destination.route
-                    }
-                    Log.i("MainActivity", "onCreate: back stack - $routes")
-                }
-            }
-            val backStackEntryState by navController.currentBackStackEntryAsState()
-            val orderDoneMessage = backStackEntryState
-                ?.savedStateHandle
-                ?.getStateFlow<String?>("order_done", null)
-                ?.collectAsState()
-            Log.i("MainActivity", "onCreate: order done msg ${orderDoneMessage?.value}")
-            val currentDestination = backStackEntryState?.destination
-            val snackbarHostState = remember {
-                SnackbarHostState()
-            }
-            val scope = rememberCoroutineScope()
-            orderDoneMessage?.value?.let { message ->
-                scope.launch {
-                    snackbarHostState.showSnackbar(message = message)
-                }
-            }
             PanucciTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val currentRoute = currentDestination?.route
-                    val selectedItem by remember(currentDestination) {
-                        val item = when (currentRoute) {
-                            highlightsListRoute -> BottomAppBarItem.HighlightsList
-                            menuRoute -> BottomAppBarItem.Menu
-                            drinksRoute -> BottomAppBarItem.Drinks
-                            else -> BottomAppBarItem.HighlightsList
-                        }
-                        mutableStateOf(item)
-                    }
-                    val containsInBottomAppBarItems = when (currentRoute) {
-                        highlightsListRoute, menuRoute, drinksRoute -> true
-                        else -> false
-                    }
-                    val isShowFab = when (currentDestination?.route) {
-                        menuRoute,
-                        drinksRoute -> true
-
-                        else -> false
-                    }
-                    PanucciApp(
-                        snackbarHostState = snackbarHostState,
-                        bottomAppBarItemSelected = selectedItem,
-                        onBottomAppBarItemSelectedChange = { item ->
-                            navController.navigateSingleTopWithPopUpTo(item)
-                        },
-                        onFabClick = {
-                            navController.navigateToCheckout()
-                        },
-                        isShowTopBar = containsInBottomAppBarItems,
-                        isShowBottomBar = containsInBottomAppBarItems,
-                        isShowFab = isShowFab
-                    ) {
-                        PanucciNavHost(navController = navController)
-                    }
+                    PanucciApp()
                 }
             }
         }
     }
 
+}
+
+@Composable
+fun PanucciApp(navController: NavHostController = rememberNavController()) {
+    LaunchedEffect(Unit) {
+        navController.addOnDestinationChangedListener { _, _, _ ->
+            val routes = navController.backQueue.map {
+                it.destination.route
+            }
+            Log.i("MainActivity", "onCreate: back stack - $routes")
+        }
+    }
+    val backStackEntryState by navController.currentBackStackEntryAsState()
+    val orderDoneMessage = backStackEntryState
+        ?.savedStateHandle
+        ?.getStateFlow<String?>("order_done", null)
+        ?.collectAsState()
+    Log.i("MainActivity", "onCreate: order done msg ${orderDoneMessage?.value}")
+    val currentDestination = backStackEntryState?.destination
+    val snackbarHostState = remember {
+        SnackbarHostState()
+    }
+    val scope = rememberCoroutineScope()
+    orderDoneMessage?.value?.let { message ->
+        scope.launch {
+            snackbarHostState.showSnackbar(message = message)
+        }
+    }
+    val currentRoute = currentDestination?.route
+    val selectedItem by remember(currentDestination) {
+        val item = when (currentRoute) {
+            highlightsListRoute -> BottomAppBarItem.HighlightsList
+            menuRoute -> BottomAppBarItem.Menu
+            drinksRoute -> BottomAppBarItem.Drinks
+            else -> BottomAppBarItem.HighlightsList
+        }
+        mutableStateOf(item)
+    }
+    val containsInBottomAppBarItems = when (currentRoute) {
+        highlightsListRoute, menuRoute, drinksRoute -> true
+        else -> false
+    }
+    val isShowFab = when (currentDestination?.route) {
+        menuRoute,
+        drinksRoute -> true
+
+        else -> false
+    }
+    PanucciApp(
+        snackbarHostState = snackbarHostState,
+        bottomAppBarItemSelected = selectedItem,
+        onBottomAppBarItemSelectedChange = { item ->
+            navController.navigateSingleTopWithPopUpTo(item)
+        },
+        onFabClick = {
+            navController.navigateToCheckout()
+        },
+        isShowTopBar = containsInBottomAppBarItems,
+        isShowBottomBar = containsInBottomAppBarItems,
+        isShowFab = isShowFab
+    ) {
+        PanucciNavHost(navController = navController)
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

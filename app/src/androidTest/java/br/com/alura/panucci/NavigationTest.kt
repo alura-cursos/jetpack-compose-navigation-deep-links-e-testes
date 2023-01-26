@@ -1,8 +1,10 @@
 package br.com.alura.panucci
 
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
@@ -12,6 +14,7 @@ import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import br.com.alura.panucci.navigation.PanucciNavHost
 import br.com.alura.panucci.navigation.drinksRoute
+import br.com.alura.panucci.navigation.menuRoute
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -28,7 +31,7 @@ class NavigationTest {
         composeTestRule.setContent {
             navController = TestNavHostController(LocalContext.current)
             navController.navigatorProvider.addNavigator(ComposeNavigator())
-            PanucciNavHost(navController = navController)
+            PanucciApp(navController = navController)
         }
     }
 
@@ -46,11 +49,11 @@ class NavigationTest {
         composeTestRule.onNodeWithText("Menu")
             .performClick()
 
-        composeTestRule.onNodeWithText("Menu")
-            .assertIsDisplayed()
+        composeTestRule.onAllNodesWithText("Menu")
+            .assertCountEquals(2)
 
         val route = navController.currentBackStackEntry?.destination?.route
-        assertEquals(route, drinksRoute)
+        assertEquals(route, menuRoute)
     }
 
 }
