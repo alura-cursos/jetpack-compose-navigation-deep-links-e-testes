@@ -7,6 +7,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
@@ -117,6 +118,15 @@ class NavigationTest {
             .onFirst()
             .performClick()
 
+        composeTestRule.waitUntil(3000) {
+            composeTestRule.onAllNodesWithContentDescription("product details content")
+                .fetchSemanticsNodes().size == 1
+        }
+
+        composeTestRule
+            .onNodeWithContentDescription("product details content")
+            .assertIsDisplayed()
+
         val route = navController.currentBackStackEntry?.destination?.route
         assertEquals(route, "$productDetailsRoute/{$productIdArgument}")
     }
@@ -131,6 +141,15 @@ class NavigationTest {
             .onAllNodesWithContentDescription("drink product card item")
             .onFirst()
             .performClick()
+
+        composeTestRule.waitUntil(3000) {
+            composeTestRule.onAllNodesWithContentDescription("product details content")
+                .fetchSemanticsNodes().size == 1
+        }
+
+        composeTestRule
+            .onNodeWithContentDescription("product details content")
+            .assertIsDisplayed()
 
         val route = navController.currentBackStackEntry?.destination?.route
         assertEquals(route, "$productDetailsRoute/{$productIdArgument}")
