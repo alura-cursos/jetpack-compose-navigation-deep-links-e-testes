@@ -82,4 +82,9 @@ class NavigationTest {
         assertEquals(route, highlightsListRoute)
     }
 
+    @Test
+    fun appNavHost_verifyIfProductDetailsScreenIsDisplayedFromHighlightsListScreen(){
+
+    }
+
 }
