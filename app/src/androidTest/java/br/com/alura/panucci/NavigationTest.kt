@@ -4,7 +4,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onAllNodesWithText
+import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
@@ -14,6 +16,8 @@ import androidx.navigation.testing.TestNavHostController
 import br.com.alura.panucci.navigation.drinksRoute
 import br.com.alura.panucci.navigation.highlightsListRoute
 import br.com.alura.panucci.navigation.menuRoute
+import br.com.alura.panucci.navigation.productDetailsRoute
+import br.com.alura.panucci.navigation.productIdArgument
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -84,7 +88,14 @@ class NavigationTest {
 
     @Test
     fun appNavHost_verifyIfProductDetailsScreenIsDisplayedFromHighlightsListScreen(){
+        composeTestRule.onRoot().printToLog("panucci app")
+        composeTestRule
+            .onAllNodesWithContentDescription("highlight product card item")
+            .onFirst()
+            .performClick()
 
+        val route = navController.currentBackStackEntry?.destination?.route
+        assertEquals(route, "$productDetailsRoute/{$productIdArgument}")
     }
 
 }
