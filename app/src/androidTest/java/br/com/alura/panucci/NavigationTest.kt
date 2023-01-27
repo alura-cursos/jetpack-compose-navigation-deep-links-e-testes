@@ -87,19 +87,27 @@ class NavigationTest {
     }
 
     @Test
-    fun appNavHost_verifyIfProductDetailsScreenIsDisplayedFromHighlightsListScreen(){
+    fun appNavHost_verifyIfProductDetailsScreenIsDisplayedFromHighlightsListScreen() {
         composeTestRule.onRoot().printToLog("panucci app")
         composeTestRule
             .onAllNodesWithContentDescription("highlight product card item")
             .onFirst()
             .performClick()
 
+        composeTestRule.waitUntil(3000) {
+            composeTestRule.onAllNodesWithText("Falha ao buscar o produto")
+                .fetchSemanticsNodes().size == 1
+        }
+
+        composeTestRule.onNodeWithText("Falha ao buscar o produto")
+            .assertIsDisplayed()
+
         val route = navController.currentBackStackEntry?.destination?.route
         assertEquals(route, "$productDetailsRoute/{$productIdArgument}")
     }
 
     @Test
-    fun appNavHost_verifyIfProductDetailsScreenIsDisplayedFromMenuScreen(){
+    fun appNavHost_verifyIfProductDetailsScreenIsDisplayedFromMenuScreen() {
         composeTestRule.onRoot().printToLog("panucci app")
         composeTestRule.onNodeWithText("Menu")
             .performClick()
@@ -114,7 +122,7 @@ class NavigationTest {
     }
 
     @Test
-    fun appNavHost_verifyIfProductDetailsScreenIsDisplayedFromDrinksScreen(){
+    fun appNavHost_verifyIfProductDetailsScreenIsDisplayedFromDrinksScreen() {
         composeTestRule.onRoot().printToLog("panucci app")
         composeTestRule.onNodeWithText("Bebidas")
             .performClick()
