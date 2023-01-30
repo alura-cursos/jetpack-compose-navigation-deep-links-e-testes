@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 
+internal const val uri = "alura://panucci.com.br"
+
 @Composable
 fun PanucciNavHost(navController: NavHostController) {
     NavHost(
