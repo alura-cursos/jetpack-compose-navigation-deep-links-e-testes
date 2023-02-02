@@ -1,8 +1,11 @@
 package br.com.alura.panucci.ui.viewmodels
 
+import android.content.Context
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
@@ -62,7 +65,10 @@ class ProductDetailsViewModel(
 
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
+
             initializer {
+                val context = this[APPLICATION_KEY] as Context
+                Log.i("ProductDetailsVM", "context: $context")
                 ProductDetailsViewModel(
                     dao = ProductDao(),
                     savedStateHandle = createSavedStateHandle()
