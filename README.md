@@ -10,19 +10,32 @@ Uma extensão do [App base com o Type Safety](https://github.com/alura-cursos/je
 
 ![apresentando-snackbar](https://user-images.githubusercontent.com/8989346/216601582-ffffafce-d36f-474f-9ba3-856c34e000b2.gif)
 
+- Testes automatizados de navegação
+
+![rodando-teste-no-android-studio](https://user-images.githubusercontent.com/8989346/216605300-b66c62aa-3c1d-499f-92a1-9a046d68632f.gif)
+
 ## ✔️ Técnicas e tecnologias utilizadas
 
 Para implementar o App foram utilizadas as seguintes funcionalidades e tecnologias:
 
 - Saved State Handle
   - Salvar mensagens durante a navegação
+  - Recuperar argumentos de navegação via ViewModel
 - Snackbar
+  - Exibir mensagem de configuração para fluxos específicos, como a realização de um pedido
 - Deep Links
+  - Acesso exclusivo para telas a partir de links
+  - Aplicação de comportamentos específicos para links personalizados, como acessar uma tela de produto com desconto apenas com o link
 - Testes para a navegação com o Compose
+  - Validando destinos do App
+  - Verificando a visibilidade de componentes visuais
+  - Garantido a chamada de cada rota dependendo das ações do usuário
+- Semantics
+  - Possibilitando que os testes consigam buscar composables que não tenham textos
 
-<!-- ## 📁 Acesso ao projeto
+## 📁 Acesso ao projeto
 
-Você pode [acessar o código fonte do projeto](https://github.com/alura-cursos/jetpack-compose-navigation-type-safety/tree/aula-5) ou [baixá-lo](https://github.com/alura-cursos/jetpack-compose-navigation-type-safety/archive/refs/heads/aula-5.zip).
+Você pode [acessar o código fonte do projeto](https://github.com/alura-cursos/jetpack-compose-navigation-deep-links-e-testes/tree/aula-6) ou [baixá-lo](https://github.com/alura-cursos/jetpack-compose-navigation-deep-links-e-testes/archive/refs/heads/aula-6.zip).
 
 ## 🛠️ Abrir e rodar o projeto
 
